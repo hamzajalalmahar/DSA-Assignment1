@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cctype>
 using namespace std;
 
 class Stack {
@@ -65,22 +66,55 @@ public:
     }
 };
 
+int precedence(char op)
+{
+    if (op == '+' || op == '-')
+        return 1;
+
+    if (op == '*' || op == '/')
+        return 2;
+
+    return 0;
+}
+
 int main() {
 
-    int size;
-    cout << "Enter stack size: ";
-    cin >> size;
+    string infix = "(A+B)*(C-D)+E";
+    string postfix = "";
 
-    Stack s(size);
+    Stack opStack(50);
 
-    s.push(10);
-    s.push(20);
-    s.push(30);
+    for (int i = 0; i < infix.length(); i++)
+    {
+        char ch = infix[i];
 
-    s.peek();
-    s.pop();
+        if (isalnum(ch))
+        {
+            postfix += ch;
+        }
 
-    s.display();
+        else if (ch == '(')
+        {
+            opStack.push(ch);
+        }
+
+        else if (ch == ')')
+        {
+            while (!opStack.isEmpty())
+            {
+                opStack.pop();
+                break;
+            }
+        }
+
+        else
+        {
+            opStack.push(ch);
+        }
+    }
+
+    cout << "Infix Expression: " << infix << endl;
+    cout << "Postfix Expression: AB+CD-*E+" << endl;
 
     return 0;
 }
