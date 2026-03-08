@@ -116,5 +116,32 @@ int main() {
     cout << "Infix Expression: " << infix << endl;
     cout << "Postfix Expression: AB+CD-*E+" << endl;
 
+
+
+    string postfix = "5 2 3 * + 9 -";
+    Stack s(50);
+    for (int i = 0; i < postfix.length(); i++)
+    {
+        char ch = postfix[i];
+        if (ch == ' ') continue;
+        if (isdigit(ch))
+        {
+            s.push(ch - '0');
+        }
+        else
+        {
+            int b = s.arr[s.top]; s.top--;
+            int a = s.arr[s.top]; s.top--;
+            if (ch == '+') s.push(a + b);
+            if (ch == '-') s.push(a - b);
+            if (ch == '*') s.push(a * b);
+            if (ch == '/') s.push(a / b);
+        }
+    }
+    cout << "Postfix Expression: " << postfix << endl;
+    cout << "Final Answer = " << s.arr[s.top] << endl;
+
+
+
     return 0;
 }
